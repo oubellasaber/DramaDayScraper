@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Pipeline
 {
-    internal class Pipeline<TState>
+    public class Pipeline<TState>
     {
         private readonly PipelineContext<TState> _context;
 
@@ -16,13 +16,13 @@ namespace DramaDayScraper.Table.Pipeline
             => new(new PipelineContext<TState>(node, initialState));
 
         public Pipeline<TState> Try<T>(
-            Func<HtmlNode, Result<T>> parser,
+            Func<HtmlNode, Result<T>> parserValidator,
             Action<T, TState> onSuccess,
             bool isContinue = false)
         {
             if (!_context.ContinueProcessing) return this;
 
-            var result = parser(_context.Node);
+            var result = parserValidator(_context.Node);
             if (result.IsSuccess)
             {
                 onSuccess(result.Value, _context.State);

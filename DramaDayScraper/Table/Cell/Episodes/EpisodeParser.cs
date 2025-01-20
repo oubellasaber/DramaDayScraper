@@ -1,14 +1,12 @@
 ﻿using DramaDayScraper.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
-using DramaDayScraper.Table.Cell.Episodes;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
-using DramaDayScraper.Table.Cell.EpisodeVersion;
 using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 
-namespace DramaDayScraper.Table.Cell
+namespace DramaDayScraper.Table.Cell.Episodes
 {
-    internal class EpisodeWithVersionsParser : IParser<HtmlNode, Result<Episode>>,
+    internal class EpisodeParser : IParser<HtmlNode, Result<Episode>>,
         IValidator<HtmlNode, Result>
     {
         public static Result Validate(HtmlNode input)
@@ -23,13 +21,20 @@ namespace DramaDayScraper.Table.Cell
             episode = Pipeline<Episode?>
                 .For(input, episode)
                 .Try(
-                    parserValidator: EpisodeParser.ValidateAndParse,
-                    onSuccess: (episode, state) => state = episode,
-                    isContinue: episode != null
+                    parserValidator: SingleEpisodeParser.ValidateAndParse,
+                    onSuccess: (singleEpisode, state) => state = singleEpisode
                 )
                 .Try(
-                    parserValidator: EpisodeVersionParser.ValidateAndParse,
-                    onSuccess: (epVersions, state) => state!.EpisodeVersions = epVersions
+                    parserValidator: SpecialEpisodeParser.ValidateAndParse,
+                    onSuccess: (specialEpisode, state) => state = specialEpisode
+                )
+                .Try(
+                    parserValidator: BatchEpisodeParser.ValidateAndParse,
+                    onSuccess: (batchEpisode, state) => state = batchEpisode
+                )
+                .Try(
+                    parserValidator: UknownEpisodeParser.ValidateAndParse,
+                    onSuccess: (unknownEpisode, state) => state = unknownEpisode
                 )
                 .GetState();
 
@@ -37,6 +42,7 @@ namespace DramaDayScraper.Table.Cell
                 ? Result.Failure<Episode>(Error.NoSuitableParserFound)
                 : Result.Success<Episode>(episode);
         }
+
 
         public static Result<Episode> ValidateAndParse(HtmlNode input)
         {

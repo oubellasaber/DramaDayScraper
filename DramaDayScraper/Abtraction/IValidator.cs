@@ -2,6 +2,6 @@
 {
     internal interface IValidator<TInput, TResult>
     {
-        TResult Validate(TInput input);
+        abstract static TResult Validate(TInput input);
     }
 }

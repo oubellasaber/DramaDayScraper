@@ -1,7 +1,9 @@
-﻿namespace DramaDayScraper.Abstraction
+﻿using DramaDayScraper.Table.Cell.Episodes.BatchEpisode;
+
+namespace DramaDayScraper.Abstraction
 {
     public interface IParser<TInput, TResult>
     {
-        TResult Parse(TInput input);
+        abstract static TResult Parse(TInput input);
     }
 }

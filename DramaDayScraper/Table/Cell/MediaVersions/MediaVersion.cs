@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Table.Cell.Episodes;
+﻿using DramaDayScraper.Table.Cell.Episodes.Entities;
 
 namespace DramaDayScraper.Table.Cell.MediaVersions
 {
