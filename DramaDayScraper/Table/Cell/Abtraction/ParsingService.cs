@@ -13,9 +13,14 @@ namespace DramaDayScraper.Table.Cell.Abtraction
 
         public Result<TResult> ValidateAndParse(TInput input)
         {
-            var result = _parsersWithValidation
-                .Select(epwv => epwv.ParseWithValidation(input))
-                .FirstOrDefault();
+            foreach (var parser in _parsersWithValidation)
+            {
+                var result = parser.ParseWithValidation(input);
+                if (result.IsSuccess)
+                {
+                    return result;
+                }
+            }
 
             return Result.Failure<TResult>(Error.NoSuitableParserFound);
         }

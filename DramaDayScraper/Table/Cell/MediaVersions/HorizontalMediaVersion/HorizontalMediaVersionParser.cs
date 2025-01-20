@@ -2,7 +2,7 @@
 
 namespace DramaDayScraper.Table.Cell.MediaVersions.HorizontalMediaVersion
 {
-    internal class HorizontalMediaVersionParser : IHtmlNodeParser<>
+    internal class HorizontalMediaVersionParser
     {
     }
 }

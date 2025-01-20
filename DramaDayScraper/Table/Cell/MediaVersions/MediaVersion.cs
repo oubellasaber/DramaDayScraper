@@ -1,9 +1,11 @@
-﻿namespace DramaDayScraper.Table.Cell.MediaVersions
+﻿using DramaDayScraper.Table.Cell.Episodes;
+
+namespace DramaDayScraper.Table.Cell.MediaVersions
 {
-    internal class MediaVersion
+    public class MediaVersion
     {
         public string MediaVersionName { get; set; }
 
-        //public ICollection<Episode.Episode> EpisodeVersions { get; set; } = new List<Episode.Episode>();
+        public ICollection<Episode> EpisodeVersions { get; set; } = new List<Episode>();
     }
 }
