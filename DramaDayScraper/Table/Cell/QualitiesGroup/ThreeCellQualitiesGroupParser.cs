@@ -1,5 +1,6 @@
 ﻿using DramaDayScraper.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
+using DramaDayScraper.Table.Cell.Validators;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.QualitiesGroup.ThreeCellQualitiesGroup
@@ -9,12 +10,26 @@ namespace DramaDayScraper.Table.Cell.QualitiesGroup.ThreeCellQualitiesGroup
     {
         public static Result<ICollection<string>> Parse(HtmlNode input)
         {
-            throw new NotImplementedException();
+            return input.SelectNodes(".//td")[1]
+                .InnerHtml
+                .Split("<br>", StringSplitOptions.RemoveEmptyEntries)
+                .ToList();
         }
 
         public static Result Validate(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var qualityGroupsValidationResult = QualityGroupsValidator.Validate(input);
+            if (qualityGroupsValidationResult.IsFailure)
+            {
+                return qualityGroupsValidationResult;
+            }
+
+            var nodes = input.SelectNodes(".//td");
+
+            if (nodes.Count != 3)
+                return Result.Failure(Error.NotExpectedFormat);
+
+            return Result.Success();
         }
 
         public static Result<ICollection<string>> ValidateAndParse(HtmlNode input)

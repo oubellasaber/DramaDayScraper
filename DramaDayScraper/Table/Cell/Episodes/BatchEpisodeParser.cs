@@ -2,6 +2,7 @@
 using DramaDayScraper.Table.Cell.Abtraction;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
 using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 namespace DramaDayScraper.Table.Cell.Episodes
 {
@@ -10,12 +11,30 @@ namespace DramaDayScraper.Table.Cell.Episodes
     {
         public static Result Validate(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var epCell = input.SelectSingleNode("./td[1]");
+
+            if (!Regex.IsMatch(epCell.InnerText, @"\d{1,2}-\d{1,2}"))
+                return Result.Failure(Error.MismatchedParser);
+
+            return Result.Success();
         }
 
         public static Result<BatchEpisode> Parse(HtmlNode input)
         {
-            throw new NotImplementedException();
+            BatchEpisode ep = new BatchEpisode();
+
+            Regex rangedEpisodesReg = new Regex(@"(\d{1,2})-(\d{1,2})");
+            var rangedEps = rangedEpisodesReg.Matches(input.SelectSingleNode("./td[1]").InnerText);
+
+            var firstMatch = rangedEps[0];
+            int leftEp = int.Parse(firstMatch.Groups[2].Value);
+
+            ep.Range = leftEp != 0 ? (
+                int.Parse(firstMatch.Groups[1].Value),
+                leftEp
+            ) : null;
+
+            return ep;
         }
 
         public static Result<BatchEpisode> ValidateAndParse(HtmlNode input)

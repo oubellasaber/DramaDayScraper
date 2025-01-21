@@ -1,6 +1,7 @@
 ﻿using DramaDayScraper.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
 using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 namespace DramaDayScraper.Table.Cell.MediaVersions
 {
@@ -9,12 +10,24 @@ namespace DramaDayScraper.Table.Cell.MediaVersions
     {
         public static Result Validate(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var tdNodes = input.SelectNodes(".//td");
+
+            var validationResult = Regex.IsMatch(tdNodes[0].InnerText, @"^\d{1,2}-\d{1,2}\s+(.+)$", RegexOptions.Singleline);
+
+            if (!validationResult)
+                return Result.Failure(Error.MismatchedParser);
+
+            return Result.Success();
         }
 
         public static Result<MediaVersion> Parse(HtmlNode input)
         {
-            throw new NotImplementedException();
+            return new MediaVersion
+            {
+                MediaVersionName = Regex.Match(input.SelectSingleNode("./td[1]").InnerText,
+                                                  @"^\d{1,2}-\d{1,2}\s+(.+)$",
+                                                  RegexOptions.Singleline).Groups[1].Value
+            };
         }
 
         public static Result<MediaVersion> ValidateAndParse(HtmlNode input)

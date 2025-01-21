@@ -2,5 +2,6 @@
 {
     internal class UknownEpisode : Episode
     {
+        public string Title { get; set; }
     }
 }

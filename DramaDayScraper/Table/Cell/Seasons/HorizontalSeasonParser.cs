@@ -1,6 +1,8 @@
 ﻿using DramaDayScraper.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
+using DramaDayScraper.Table.Cell.Validators;
 using HtmlAgilityPack;
+using System.Text.RegularExpressions;
 
 namespace DramaDayScraper.Table.Cell.Seasons
 {
@@ -9,12 +11,34 @@ namespace DramaDayScraper.Table.Cell.Seasons
     {
         public static Result Validate(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var cellValidationResult = BaseHtmlTableCellValidator.Validate(input);
+            if (cellValidationResult.IsFailure)
+                return cellValidationResult;
+
+            var tdNodes = input.SelectNodes(".//td");
+
+            var firstCellText = tdNodes[0].InnerText;
+            if (!(Regex.IsMatch(input.SelectSingleNode("./td[1]").InnerText, @"season (\d+)", RegexOptions.IgnoreCase) &&
+                string.IsNullOrEmpty(tdNodes[1].InnerText)))
+                return Result.Failure(Error.MismatchedParser);
+
+            return Result.Success();
         }
 
         public static Result<Season> Parse(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var match = Regex.Match(
+                input.SelectSingleNode("./td[1]").InnerText,
+                @"season (\d+)",
+                RegexOptions.IgnoreCase
+            );
+
+            var season = new Season
+            {
+                SeasonNumber = match.Success ? int.Parse(match.Groups[1].Value) : null
+            };
+
+            return Result.Success(season);
         }
 
         public static Result<Season> ValidateAndParse(HtmlNode input)

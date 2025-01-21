@@ -2,5 +2,6 @@
 {
     internal class SingleEpisode : Episode
     {
+        public int EpisodeNumber { get; set; }
     }
 }

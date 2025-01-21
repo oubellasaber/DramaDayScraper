@@ -1,7 +1,7 @@
 ﻿using DramaDayScraper.Table.Cell.Seasons;
 using System.Collections.ObjectModel;
 
-namespace DramaDayScraper.Table
+namespace DramaDayScraper
 {
     internal class Media
     {

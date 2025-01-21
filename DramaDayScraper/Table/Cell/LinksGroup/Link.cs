@@ -1,6 +1,8 @@
 ﻿namespace DramaDayScraper.Table.Cell.LinksGroup
 {
-    internal class Link
+    public class Link
     {
+        public string Host { get; set; }
+        public string LinkUrl { get; set; }
     }
 }

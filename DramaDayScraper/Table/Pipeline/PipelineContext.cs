@@ -2,16 +2,17 @@
 
 namespace DramaDayScraper.Table.Pipeline
 {
-    internal class PipelineContext<TState>
+    public class PipelineContext<TState>
     {
-        public HtmlNode Node { get; set; }
-        public TState State { get; set; }
-        public bool ContinueProcessing { get; set; } = true;
+        public HtmlNode Node { get; }
+        public TState State { get; }
+        public bool ContinueProcessing { get; set; }
 
-        public PipelineContext(HtmlNode node, TState initialState)
+        public PipelineContext(HtmlNode node, TState state)
         {
             Node = node;
-            State = initialState;
+            State = state;
+            ContinueProcessing = true;
         }
     }
 }

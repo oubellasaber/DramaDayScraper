@@ -10,12 +10,22 @@ namespace DramaDayScraper.Table.Cell.Episodes
     {
         public static Result Validate(HtmlNode input)
         {
-            throw new NotImplementedException();
+            var isSpecial = input.SelectSingleNode("./td[1]")
+                   .InnerText
+                   .Contains("special", StringComparison.OrdinalIgnoreCase);
+
+            if (!isSpecial)
+                return Result.Failure(Error.MismatchedParser);
+
+            return Result.Success();
         }
 
         public static Result<SpecialEpisode> Parse(HtmlNode input)
         {
-            throw new NotImplementedException();
+            return new SpecialEpisode
+            {
+                Title = input.SelectSingleNode("./td[1]").InnerText
+            };
         }
 
         public static Result<SpecialEpisode> ValidateAndParse(HtmlNode input)

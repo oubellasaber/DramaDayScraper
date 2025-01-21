@@ -2,5 +2,6 @@
 {
     internal class SpecialEpisode : Episode
     {
+        public string Title { get; set; }
     }
 }

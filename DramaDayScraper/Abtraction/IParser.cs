@@ -1,6 +1,4 @@
-﻿using DramaDayScraper.Table.Cell.Episodes.BatchEpisode;
-
-namespace DramaDayScraper.Abstraction
+﻿namespace DramaDayScraper.Abstraction
 {
     public interface IParser<TInput, TResult>
     {

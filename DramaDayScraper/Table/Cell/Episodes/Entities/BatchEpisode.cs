@@ -1,6 +1,7 @@
 ﻿namespace DramaDayScraper.Table.Cell.Episodes.Entities
 {
-    public class BatchEpisode : Episode
+    internal class BatchEpisode : Episode
     {
+        public (int, int)? Range { get; set; }
     }
 }

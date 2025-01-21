@@ -6,6 +6,6 @@ namespace DramaDayScraper.Table.Cell.MediaVersions
     {
         public string MediaVersionName { get; set; }
 
-        public ICollection<Episode> EpisodeVersions { get; set; } = new List<Episode>();
+        public ICollection<Episode> Episodes { get; set; } = new List<Episode>();
     }
 }
