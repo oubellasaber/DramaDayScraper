@@ -17,8 +17,8 @@ namespace DramaDayScraper.Table.Cell.Seasons
 
             var tdNodes = input.SelectNodes(".//td");
 
-            var secondCellText = tdNodes[0].InnerText;
-            if (!Regex.IsMatch(tdNodes[0].InnerText, @"s[\w\s]*(\d{1,2})", RegexOptions.IgnoreCase))
+            var firstCellText = tdNodes[0].InnerText;
+            if (!Regex.IsMatch(firstCellText, @"(s[\w\s]{0, 3}|season*)(\d{1,2})", RegexOptions.IgnoreCase))
                 return Result.Failure(Error.MismatchedParser);
 
             return Result.Success();

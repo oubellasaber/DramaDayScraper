@@ -13,7 +13,7 @@ namespace DramaDayScraper.Table
         public static Collection<Season> Parse(HtmlNode table)
         {
             List<HtmlNode> nodes = table.SelectNodes(".//tr").ToList();
-            //RemoveUncesseryRowsFromTable(nodes);
+            RemoveUncesseryRowsFromTable(nodes);
             TablePipelineState state = new TablePipelineState();
 
             nodes.ForEach(node =>

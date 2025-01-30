@@ -8,7 +8,7 @@ namespace DramaDayScraper.Table
 {
     public class TablePipelineState
     {
-        public Error Error { get; set; }
+        public Error? Error { get; set; }
         public Collection<Season> Seasons { get; } = new();
         public Season? CurrentSeason => Seasons.LastOrDefault();
         public MediaVersion? CurrentMediaVersion => CurrentSeason?.MediaVersions.LastOrDefault();
