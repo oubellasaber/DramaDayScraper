@@ -1,6 +1,6 @@
 ﻿using DramaDayScraper.Abstraction;
+using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
-using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.Episodes

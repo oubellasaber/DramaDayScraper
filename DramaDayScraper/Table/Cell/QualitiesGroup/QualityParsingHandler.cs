@@ -1,8 +1,8 @@
 ﻿using DramaDayScraper.Abstraction;
+using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell.QualitiesGroup.NoTableQualitiesGroup;
 using DramaDayScraper.Table.Cell.QualitiesGroup.ThreeCellQualitiesGroup;
 using DramaDayScraper.Table.Cell.QualitiesGroup.TwoCellQualitiesGroup;
-using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.QualitiesGroup

@@ -1,6 +1,6 @@
 ﻿using DramaDayScraper.Abstraction;
 
-namespace DramaDayScraper.Table.Pipeline
+namespace DramaDayScraper.Extentions.Pipeline
 {
     public class ValueErrorState<T>
     {

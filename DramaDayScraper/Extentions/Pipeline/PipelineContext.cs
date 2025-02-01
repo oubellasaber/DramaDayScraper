@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 
-namespace DramaDayScraper.Table.Pipeline
+namespace DramaDayScraper.Extentions.Pipeline
 {
     public class PipelineContext<TState>
     {

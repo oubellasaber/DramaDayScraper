@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+    <Folder Include="LinkCollection\" />
+    <Folder Include="SingleLink\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Transformer\LinkTransformer.csproj" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
   </ItemGroup>
 
 </Project>

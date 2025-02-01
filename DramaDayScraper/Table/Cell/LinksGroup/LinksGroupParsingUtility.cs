@@ -1,6 +1,4 @@
 ﻿using HtmlAgilityPack;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DramaDayScraper.Table.Cell.LinksGroup
 {
@@ -11,10 +9,10 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
             return cellHtml.Split("<br>", StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static ICollection<ICollection<Link>> ParseAsLinks(string cellHtml)
+        public static ICollection<ICollection<ShortLink>> ParseAsLinks(string cellHtml)
         {
             var rawLinkGroups = ExtractLinkGroups(cellHtml);
-            var scrapedLinkGroups = new List<ICollection<Link>>();
+            var scrapedLinkGroups = new List<ICollection<ShortLink>>();
 
             foreach (var rawLinkGroup in rawLinkGroups)
                 scrapedLinkGroups.Add(ExtractLinksFromGroup(rawLinkGroup));
@@ -22,10 +20,10 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
             return scrapedLinkGroups;
         }
 
-        public static ICollection<ICollection<Link>> ParseAsLinks(ICollection<HtmlNode> cells)
+        public static ICollection<ICollection<ShortLink>> ParseAsLinks(ICollection<HtmlNode> cells)
         {
             var rawLinkGroups = cells.Select(c => c.InnerHtml).ToArray();
-            var scrapedLinkGroups = new List<ICollection<Link>>();
+            var scrapedLinkGroups = new List<ICollection<ShortLink>>();
 
             foreach (var rawLinkGroup in rawLinkGroups)
                 scrapedLinkGroups.Add(ExtractLinksFromGroup(rawLinkGroup));
@@ -33,10 +31,10 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
             return scrapedLinkGroups;
         }
 
-        private static ICollection<Link> ExtractLinksFromGroup(string linkGroupHtml)
+        private static ICollection<ShortLink> ExtractLinksFromGroup(string linkGroupHtml)
             => HtmlNode.CreateNode($"<div>{linkGroupHtml}</div>")
                        .SelectNodes(".//a")
-                       .Select(l => new Link
+                       .Select(l => new ShortLink
                        {
                            Host = l.InnerText.Trim(),
                            LinkUrl = l.GetAttributeValue("href", "")

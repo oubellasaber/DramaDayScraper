@@ -5,10 +5,10 @@ using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.LinksGroup
 {
-    internal class NoTableLinksGroupParser : IParser<HtmlNode, Result<ICollection<ICollection<Link>>>>,
+    internal class NoTableLinksGroupParser : IParser<HtmlNode, Result<ICollection<ICollection<ShortLink>>>>,
         IValidator<HtmlNode, Result>
     {
-        public static Result<ICollection<ICollection<Link>>> Parse(HtmlNode input)
+        public static Result<ICollection<ICollection<ShortLink>>> Parse(HtmlNode input)
             => LinksGroupParsingUtility.ParseAsLinks(input.SelectNodes(".//td").ToList()).ToList();
 
         public static Result Validate(HtmlNode input)
@@ -27,9 +27,9 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
             return Result.Success();
         }
 
-        public static Result<ICollection<ICollection<Link>>> ValidateAndParse(HtmlNode input)
+        public static Result<ICollection<ICollection<ShortLink>>> ValidateAndParse(HtmlNode input)
         {
-            return ParserWithValidation<HtmlNode, ICollection<ICollection<Link>>>.ParseWithValidation(
+            return ParserWithValidation<HtmlNode, ICollection<ICollection<ShortLink>>>.ParseWithValidation(
                 input,
                 Validate,
                 Parse

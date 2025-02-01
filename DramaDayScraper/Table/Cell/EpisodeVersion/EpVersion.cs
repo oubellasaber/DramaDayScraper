@@ -6,6 +6,6 @@ namespace DramaDayScraper.Table.Cell.EpisodeVersion
     {
         public string EpisodeVerisonName { get; set; }
 
-        public ICollection<Link> Links { get; set; } = new List<Link>();
+        public ICollection<ShortLink> Links { get; set; } = new List<ShortLink>();
     }
 }

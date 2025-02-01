@@ -1,8 +1,8 @@
 ﻿using DramaDayScraper.Extentions;
+using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell;
 using DramaDayScraper.Table.Cell.MediaVersions;
 using DramaDayScraper.Table.Cell.Seasons;
-using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 using System.Collections.ObjectModel;
 

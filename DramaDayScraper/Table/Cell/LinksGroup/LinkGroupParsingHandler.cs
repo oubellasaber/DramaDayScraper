@@ -1,16 +1,16 @@
 ﻿using DramaDayScraper.Abstraction;
-using DramaDayScraper.Table.Pipeline;
+using DramaDayScraper.Extentions.Pipeline;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.LinksGroup
 {
-    internal class LinkGroupParsingHandler : IParser<HtmlNode, Result<ICollection<ICollection<Link>>>>
+    internal class LinkGroupParsingHandler : IParser<HtmlNode, Result<ICollection<ICollection<ShortLink>>>>
     {
-        public static Result<ICollection<ICollection<Link>>> Parse(HtmlNode input)
+        public static Result<ICollection<ICollection<ShortLink>>> Parse(HtmlNode input)
         {
-            ValueErrorState<ICollection<ICollection<Link>>> linksGroupsState = new();
+            ValueErrorState<ICollection<ICollection<ShortLink>>> linksGroupsState = new();
 
-            Pipeline<ValueErrorState<ICollection<ICollection<Link>>>>
+            Pipeline<ValueErrorState<ICollection<ICollection<ShortLink>>>>
                 .For(input, linksGroupsState)
                 .Try(
                     parserValidator: NoTableLinksGroupParser.ValidateAndParse,
@@ -29,7 +29,7 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
                 );
 
             return ReferenceEquals(linksGroupsState.Value, null)
-                ? Result.Failure<ICollection<ICollection<Link>>>(linksGroupsState.Error!)
+                ? Result.Failure<ICollection<ICollection<ShortLink>>>(linksGroupsState.Error!)
                 : Result.Success(linksGroupsState.Value);
         }
     }

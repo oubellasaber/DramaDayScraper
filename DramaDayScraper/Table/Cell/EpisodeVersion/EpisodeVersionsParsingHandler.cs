@@ -1,7 +1,7 @@
 ﻿using DramaDayScraper.Abstraction;
+using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell.LinksGroup;
 using DramaDayScraper.Table.Cell.QualitiesGroup;
-using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.EpisodeVersion
@@ -10,11 +10,11 @@ namespace DramaDayScraper.Table.Cell.EpisodeVersion
     {
         public static Result<ICollection<EpVersion>> Parse(HtmlNode input)
         {
-            ValueErrorState<ICollection<ICollection<Link>>> linkState = new();
+            ValueErrorState<ICollection<ICollection<ShortLink>>> linkState = new();
             ValueErrorState<ICollection<string>> qualityState = new();
 
             // Pipeline to parse link groups
-            Pipeline<ValueErrorState<ICollection<ICollection<Link>>>>
+            Pipeline<ValueErrorState<ICollection<ICollection<ShortLink>>>>
                 .For(input, linkState)
                 .Try(
                     parserValidator: LinkGroupParsingHandler.Parse,

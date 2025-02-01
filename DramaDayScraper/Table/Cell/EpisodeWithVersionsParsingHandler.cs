@@ -1,9 +1,9 @@
 ﻿using DramaDayScraper.Abstraction;
-using DramaDayScraper.Table.Pipeline;
 using HtmlAgilityPack;
 using DramaDayScraper.Table.Cell.Episodes;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
 using DramaDayScraper.Table.Cell.EpisodeVersion;
+using DramaDayScraper.Extentions.Pipeline;
 
 namespace DramaDayScraper.Table.Cell
 {

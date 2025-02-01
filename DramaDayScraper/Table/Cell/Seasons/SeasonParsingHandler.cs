@@ -1,5 +1,5 @@
 ﻿using DramaDayScraper.Abstraction;
-using DramaDayScraper.Table.Pipeline;
+using DramaDayScraper.Extentions.Pipeline;
 using HtmlAgilityPack;
 
 namespace DramaDayScraper.Table.Cell.Seasons

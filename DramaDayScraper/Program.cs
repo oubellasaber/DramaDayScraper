@@ -1,5 +1,6 @@
 ﻿using DramaDayScraper.Table;
 using HtmlAgilityPack;
+using LinkTransformer.AutoLinkResolution;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -85,10 +86,10 @@ public class Program
     {
         public string soralink_z { get; set; }
     }
-    public static void Main()
+    public static void Mainl()
     {
         var htmlWeb = new HtmlWeb();
-        var htmlDoc = htmlWeb.LoadFromWebAsync("https://dramaday.me/iris/").Result;
+        var htmlDoc = htmlWeb.LoadFromWebAsync("https://dramaday.me/sorry-not-sorry/").Result;
         var tbody = htmlDoc.DocumentNode
             .SelectSingleNode(".//tbody");
 
@@ -97,6 +98,13 @@ public class Program
         Console.WriteLine(JsonSerializer.Serialize(result));
 
         Console.WriteLine();
+    }
+
+    public static async Task Main()
+    {
+        var result = await L4sResolver.ResolveLink("https://l4s.cc/JL5w");
+        
+        Console.WriteLine(result!);
     }
 
     public class RawEntity
