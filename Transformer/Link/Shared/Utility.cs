@@ -1,4 +1,4 @@
-﻿namespace LinkTransformer.AutoLinkResolution.Shared
+﻿namespace DramaDayTransformer.Link.Shared
 {
     public static class Utility
     {

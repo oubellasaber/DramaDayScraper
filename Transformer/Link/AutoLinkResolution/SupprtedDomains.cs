@@ -1,4 +1,4 @@
-﻿namespace LinkTransformer.AutoLinkResolution
+﻿namespace DramaDayTransformer.Link.AutoLinkResolution
 {
     public static class SupprtedDomains
     {

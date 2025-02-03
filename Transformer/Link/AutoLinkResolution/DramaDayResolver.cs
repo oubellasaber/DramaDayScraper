@@ -1,8 +1,8 @@
-﻿using HtmlAgilityPack;
-using LinkTransformer.AutoLinkResolution.Shared;
+﻿using DramaDayTransformer.Link.Shared;
+using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 
-namespace LinkTransformer.AutoLinkResolution
+namespace DramaDayTransformer.Link.AutoLinkResolution
 {
     // needs a logger and IConfiguration
     public class DramaDayResolver

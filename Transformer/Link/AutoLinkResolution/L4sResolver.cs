@@ -1,15 +1,15 @@
-﻿using LinkTransformer.AutoLinkResolution.Shared;
+﻿using DramaDayTransformer.Link.Shared;
 using System.Text;
 using System.Web;
 
-namespace LinkTransformer.AutoLinkResolution
+namespace DramaDayTransformer.Link.AutoLinkResolution
 {
     public class L4sResolver
     {
         public static async Task<string?> ResolveLink(string link)
         {
             var firstRedirect = await Utility.GetFirstRedirectAsync(link);
-            
+
             if (firstRedirect == null)
                 return null;
 
@@ -40,14 +40,14 @@ namespace LinkTransformer.AutoLinkResolution
             string? ExtractAfterTr(string url)
             {
                 Uri uri = new Uri(url);
-                
+
                 var path = uri.AbsolutePath;
                 const string prefix = "/tr/";
 
                 if (path.Contains(prefix))
                     return path.Substring(path.IndexOf(prefix) + prefix.Length);
 
-                return null; 
+                return null;
             }
         }
 
@@ -86,7 +86,7 @@ namespace LinkTransformer.AutoLinkResolution
             }
         }
 
-        
+
         private static string DecodeBase64(string base64String)
         {
             try

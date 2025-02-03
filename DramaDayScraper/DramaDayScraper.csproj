@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Transformer\LinkTransformer.csproj" />
+    <ProjectReference Include="..\Transformer\DramaDayTransformer.csproj" />
   </ItemGroup>
 
 </Project>

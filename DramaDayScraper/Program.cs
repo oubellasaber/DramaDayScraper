@@ -1,6 +1,7 @@
 ﻿using DramaDayScraper.Table;
+using DramaDayTransformer.Link.AutoLinkResolution;
+using DramaDayTransformer.Link.LinkCollection;
 using HtmlAgilityPack;
-using LinkTransformer.AutoLinkResolution;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -86,7 +87,7 @@ public class Program
     {
         public string soralink_z { get; set; }
     }
-    public static void Mainl()
+    public static void Maisn()
     {
         var htmlWeb = new HtmlWeb();
         var htmlDoc = htmlWeb.LoadFromWebAsync("https://dramaday.me/sorry-not-sorry/").Result;
@@ -100,11 +101,65 @@ public class Program
         Console.WriteLine();
     }
 
+    private static async Task<string?> GetRedirectUrl(string url, string host)
+    {
+        List<(string key, string value)> headers = new();
+
+        headers.Add(("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"));
+        headers.Add(("Cookie", "lang=en; PHPSESSID=0lndcd934e0acbon5nt7drlo47; ab=1732121426; ha=1; haad=1; haac=1; ac=2; acn=2"));
+
+
+        var response = await GetResponse(url, headers, new HttpClientHandler { AllowAutoRedirect = true });
+        string redirectHtml = await response.Content.ReadAsStringAsync();
+
+        Regex regex = new Regex(@"href='(?<redirect>[^']*)'");
+
+        Match match = regex.Match(redirectHtml);
+
+        if (!match.Success)
+            return null;
+
+        string redirectUrl = match.Groups["redirect"].Value;
+
+        var finalResponse = await GetResponse(redirectUrl, headers, new HttpClientHandler { AllowAutoRedirect = !host.Contains("datanodes") });
+
+        return host.Contains("datanodes") ? finalResponse?.Headers?.Location?.ToString() : finalResponse?.RequestMessage?.RequestUri?.ToString();
+    }
+
+    private static async Task<HttpResponseMessage?> GetResponse(string url, IEnumerable<(string key, string value)> headers, HttpClientHandler httpHandler)
+    {
+        var client = new HttpClient(httpHandler);
+        var currentUrl = url;
+
+        var request = new HttpRequestMessage(HttpMethod.Get, currentUrl);
+        foreach (var h in headers)
+        {
+            request.Headers.Add(h.key, h.value);
+        }
+
+        var response = await client.SendAsync(request);
+
+        return response;
+    }
+
     public static async Task Main()
     {
-        var result = await L4sResolver.ResolveLink("https://l4s.cc/JL5w");
+        //var result = await L4sResolver.ResolveLink("https://l4s.cc/JBc3");
+        //var result = await FileCrypt.GetRedirectUrl("https://filecrypt.co/Link/3vhcQ2aYby_W0jwPS9tsWWgso9J7LH5A89Izlw68hryd4Xwtqsq14LTBPugp2PjY4fEc2aLSjBIZ3TF2wWgPfUkXAH0vH-odNtpT6xpUnySNMt_EFIUGnkx8vbp42-1g.html", "datanodes");
         
-        Console.WriteLine(result!);
+        //Console.WriteLine(result!);
+
+        HttpClient httpClient = new HttpClient();
+
+        string apiKey = "c0059d9caa18e3b31252f1622aef9590";
+        string fileCryptContainerUrl = "https://filecrypt.co/Container/B3CFD96DB8.html";
+
+        HttpResponseMessage result = await httpClient.GetAsync($"http://api.scraperapi.com/?api_key={apiKey}&url={fileCryptContainerUrl}&premium=true");
+
+        foreach (var item in result.Headers.GetValues("Set-Cookie"))
+        {
+            Console.WriteLine(item);
+        }
     }
 
     public class RawEntity

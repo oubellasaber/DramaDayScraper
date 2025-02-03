@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="LinkCollection\" />
-    <Folder Include="SingleLink\" />
+    <Folder Include="Direct Link\" />
+    <Folder Include="MetaData\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
   </ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DramaDayScraper\DramaDayScraper.csproj" />
+	</ItemGroup>
 
 </Project>

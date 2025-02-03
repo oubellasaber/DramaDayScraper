@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DramaDayScraper", "DramaDayScraper\DramaDayScraper.csproj", "{8B0B18E3-4751-4ACF-84AE-940244DB068D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkTransformer", "Transformer\LinkTransformer.csproj", "{39FDE587-8235-43F0-ABEE-9E686F633A84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DramaDayTransformer", "Transformer\DramaDayTransformer.csproj", "{39FDE587-8235-43F0-ABEE-9E686F633A84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
