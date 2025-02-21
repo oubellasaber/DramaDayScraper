@@ -5,6 +5,9 @@ namespace DramaDayScraper
 {
     internal class Media
     {
-        public ICollection<Season> Seasons { get; set; } = new Collection<Season>();
+        public string DramaDayId { get; set; }
+        public string? KrTitle { get; set; }
+        public string EnTitle { get; set; }
+        public IEnumerable<Season> Seasons { get; set; } = new List<Season>();
     }
 }

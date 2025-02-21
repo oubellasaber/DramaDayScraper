@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell.QualitiesGroup.NoTableQualitiesGroup;
 using DramaDayScraper.Table.Cell.QualitiesGroup.ThreeCellQualitiesGroup;
@@ -16,21 +16,21 @@ namespace DramaDayScraper.Table.Cell.QualitiesGroup
             Pipeline<ValueErrorState<ICollection<string>>>
                .For(input, qualitiesGroups)
                .Try(
-                   parserValidator: NoTableQualitiesGroupParser.ValidateAndParse,
+                   parser: NoTableQualitiesGroupParser.ValidateAndParse,
                    onSuccess: (noTableQualitiesGroups, state) => state.Value = noTableQualitiesGroups,
                    onFailure: (result, state) => state.Error ??= result.Error
                )
                .Try(
-                   parserValidator: ThreeCellQualitiesGroupParser.ValidateAndParse,
+                   parser: ThreeCellQualitiesGroupParser.ValidateAndParse,
                    onSuccess: (threeCellQualitiesGroups, state) => state.Value = threeCellQualitiesGroups,
                    onFailure: (result, state) => state.Error ??= result.Error
                )
                .Try(
-                   parserValidator: TwoCellQualitiesGroupParser.ValidateAndParse,
+                   parser: TwoCellQualitiesGroupParser.ValidateAndParse,
                    onSuccess: (twoCellQualitiesGroups, state) => state.Value = twoCellQualitiesGroups,
                    onFailure: (result, state) => state.Error ??= result.Error
                )
-               .GetState();
+               .Result();
 
             return ReferenceEquals(qualitiesGroups.Value, null)
                 ? Result.Failure<ICollection<string>>(qualitiesGroups.Error!)

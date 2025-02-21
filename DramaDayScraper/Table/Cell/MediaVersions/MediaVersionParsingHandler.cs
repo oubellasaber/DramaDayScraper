@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Extentions.Pipeline;
 using HtmlAgilityPack;
 
@@ -13,12 +13,12 @@ namespace DramaDayScraper.Table.Cell.MediaVersions
             Pipeline<ValueErrorState<MediaVersion>>
                 .For(input, mediaVersionState)
                 .Try(
-                    parserValidator: HorizontalMediaVersionParser.ValidateAndParse,
+                    parser: HorizontalMediaVersionParser.ValidateAndParse,
                     onSuccess: (horizontalMediaVersion, state) => state.Value = horizontalMediaVersion,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: SidebarMediaVersionParser.ValidateAndParse,
+                    parser: SidebarMediaVersionParser.ValidateAndParse,
                     onSuccess: (sidebarMediaVersion, state) => state.Value = sidebarMediaVersion,
                     onFailure: (result, state) => state.Error ??= result.Error
                 );

@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
 using HtmlAgilityPack;
@@ -29,10 +29,8 @@ namespace DramaDayScraper.Table.Cell.Episodes
             var firstMatch = rangedEps[0];
             int leftEp = int.Parse(firstMatch.Groups[2].Value);
 
-            ep.Range = leftEp != 0 ? (
-                int.Parse(firstMatch.Groups[1].Value),
-                leftEp
-            ) : null;
+            ep.RangeStart = int.Parse(firstMatch.Groups[1].Value);
+            ep.RangeEnd = leftEp;
 
             return ep;
         }

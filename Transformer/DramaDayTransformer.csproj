@@ -7,16 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Direct Link\" />
-    <Folder Include="MetaData\" />
+    <Compile Remove="RangedEpsScraping\**" />
+    <EmbeddedResource Remove="RangedEpsScraping\**" />
+    <None Remove="RangedEpsScraping\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\DramaDayScraper\DramaDayScraper.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
 
 </Project>

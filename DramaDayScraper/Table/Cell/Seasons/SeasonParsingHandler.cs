@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Extentions.Pipeline;
 using HtmlAgilityPack;
 
@@ -13,13 +13,18 @@ namespace DramaDayScraper.Table.Cell.Seasons
             Pipeline<ValueErrorState<Season>>
                 .For(input, seasonState)
                 .Try(
-                    parserValidator: HorizontalSeasonParser.ValidateAndParse,
+                    parser: HorizontalSeasonParser.ValidateAndParse,
                     onSuccess: (horizontalSeason, state) => state.Value = horizontalSeason,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: SidebarSeasonParser.ValidateAndParse,
+                    parser: SidebarSeasonParser.ValidateAndParse,
                     onSuccess: (sidebarSeason, state) => state.Value = sidebarSeason,
+                    onFailure: (result, state) => state.Error ??= result.Error
+                )
+                .Try(
+                    parser: UrlSeasonParser.ValidateAndParse,
+                    onSuccess: (urlSeason, state) => state.Value = urlSeason,
                     onFailure: (result, state) => state.Error ??= result.Error
                 );
 

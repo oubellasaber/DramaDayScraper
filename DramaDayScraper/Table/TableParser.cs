@@ -1,19 +1,22 @@
-﻿using DramaDayScraper.Extentions;
+﻿using Core.Abstraction;
+using DramaDayScraper.Extentions;
 using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell;
 using DramaDayScraper.Table.Cell.MediaVersions;
 using DramaDayScraper.Table.Cell.Seasons;
 using HtmlAgilityPack;
-using System.Collections.ObjectModel;
 
 namespace DramaDayScraper.Table
 {
-    internal class TableParser
+    public class TableParser : IParser<HtmlNode, Result<IEnumerable<Season>>>
     {
-        public static Collection<Season> Parse(HtmlNode table)
+        public static Result<IEnumerable<Season>> Parse(HtmlNode input)
         {
-            List<HtmlNode> nodes = table.SelectNodes(".//tr").ToList();
+            List<HtmlNode> nodes = new();
+            nodes.Add(input.OwnerDocument.DocumentNode.SelectSingleNode(@"//meta[@property = ""og:url""]"));
+            nodes.AddRange(input.SelectNodes(".//tr"));
             RemoveUncesseryRowsFromTable(nodes);
+
             TablePipelineState state = new TablePipelineState();
 
             nodes.ForEach(node =>
@@ -21,16 +24,12 @@ namespace DramaDayScraper.Table
                 Pipeline<TablePipelineState>
                 .For(node, state)
                 .Try(
-                    parserValidator: SeasonParsingHandler.Parse,
+                    parser: SeasonParsingHandler.Parse,
                     onSuccess: (season, state) => state.Seasons.Add(season),
-                    isContinue: true
-                )
-                .EnsureExists(
-                    condition: state => !state.Seasons.Any(),
-                    action: state => state.Seasons.Add(new Season { SeasonNumber = 1 })
+                    isContinue: false
                 )
                 .Try(
-                    parserValidator: MediaVersionParsingHandler.Parse,
+                    parser: MediaVersionParsingHandler.Parse,
                     onSuccess: (version, state) => state.CurrentSeason?.MediaVersions.Add(version),
                     isContinue: true
                 )
@@ -39,10 +38,11 @@ namespace DramaDayScraper.Table
                     action: state => state.CurrentSeason?.MediaVersions.Add(new MediaVersion() { MediaVersionName = "default" })
                 )
                 .Try(
-                    parserValidator: EpisodeWithVersionsParsingHandler.Parse,
+                    parser: EpisodeWithVersionsParsingHandler.Parse,
                     onSuccess: (episode, state) => state.CurrentMediaVersion?.Episodes.Add(episode)
                 )
                 .Finally(
+                    // set up proper logging later
                     finalAction: ctx => Console.WriteLine($"Log {ctx.Node.InnerHtml}")
                  );
             });
@@ -52,9 +52,9 @@ namespace DramaDayScraper.Table
 
         private static void RemoveUncesseryRowsFromTable(List<HtmlNode> rows)
         {
-            if (rows[0].IsHeader())
+            if (rows[1].IsHeader())
             {
-                rows.RemoveAt(0);
+                rows.RemoveAt(1);
             }
 
             rows.RemoveAll(r => r.IsEmptyRow() || r.IsPasswordRow());

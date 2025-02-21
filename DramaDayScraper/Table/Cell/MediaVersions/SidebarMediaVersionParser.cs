@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Table.Cell.Abtraction;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;

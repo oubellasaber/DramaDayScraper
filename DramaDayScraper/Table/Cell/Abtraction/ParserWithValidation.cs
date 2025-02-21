@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 
 namespace DramaDayScraper.Table.Cell.Abtraction
 {

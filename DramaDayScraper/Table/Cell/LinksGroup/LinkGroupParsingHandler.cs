@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Extentions.Pipeline;
 using HtmlAgilityPack;
 
@@ -13,17 +13,17 @@ namespace DramaDayScraper.Table.Cell.LinksGroup
             Pipeline<ValueErrorState<ICollection<ICollection<ShortLink>>>>
                 .For(input, linksGroupsState)
                 .Try(
-                    parserValidator: NoTableLinksGroupParser.ValidateAndParse,
+                    parser: NoTableLinksGroupParser.ValidateAndParse,
                     onSuccess: (noTableLinksGroups, state) => state.Value = noTableLinksGroups,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: ThreeCellLinksGroupParser.ValidateAndParse,
+                    parser: ThreeCellLinksGroupParser.ValidateAndParse,
                     onSuccess: (threeCellLinksGroup, state) => state.Value = threeCellLinksGroup,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: TwoCellLinksGroupParser.ValidateAndParse,
+                    parser: TwoCellLinksGroupParser.ValidateAndParse,
                     onSuccess: (twoCellLinksGroup, state) => state.Value = twoCellLinksGroup,
                     onFailure: (result, state) => state.Error ??= result.Error
                 );

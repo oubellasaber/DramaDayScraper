@@ -2,6 +2,7 @@
 {
     internal class BatchEpisode : Episode
     {
-        public (int, int)? Range { get; set; }
+        public int RangeStart { get; set; }
+        public int RangeEnd { get; set; }
     }
 }

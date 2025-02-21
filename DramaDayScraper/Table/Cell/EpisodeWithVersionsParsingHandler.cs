@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using HtmlAgilityPack;
 using DramaDayScraper.Table.Cell.Episodes;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
@@ -16,13 +16,13 @@ namespace DramaDayScraper.Table.Cell
             Pipeline<ValueErrorState<Episode>>
                 .For(input, episodeState)
                 .Try(
-                    parserValidator: EpisodeParsingHandler.Parse,
+                    parser: EpisodeParsingHandler.Parse,
                     onSuccess: (episode, state) => state.Value = episode,
                     onFailure: (result, state) => state.Error ??= result.Error,
                     isContinue: true
                 )
                 .Try(
-                    parserValidator: EpisodeVersionsParsingHandler.Parse,
+                    parser: EpisodeVersionsParsingHandler.Parse,
                     onSuccess: (episodeVersions, state) => state.Value!.EpisodeVersions = episodeVersions,
                     onFailure: (result, state) => state.Error ??= result.Error
                 );

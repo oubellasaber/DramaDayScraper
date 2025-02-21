@@ -1,4 +1,4 @@
-﻿using DramaDayScraper.Abstraction;
+﻿using Core.Abstraction;
 using DramaDayScraper.Extentions.Pipeline;
 using DramaDayScraper.Table.Cell.Episodes.Entities;
 using HtmlAgilityPack;
@@ -14,22 +14,22 @@ namespace DramaDayScraper.Table.Cell.Episodes
             Pipeline<ValueErrorState<Episode>>
                 .For(input, episodeState)
                 .Try(
-                    parserValidator: SingleEpisodeParser.ValidateAndParse,
+                    parser: SingleEpisodeParser.ValidateAndParse,
                     onSuccess: (singleEpisode, state) => state.Value = singleEpisode,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: SpecialEpisodeParser.ValidateAndParse,
+                    parser: SpecialEpisodeParser.ValidateAndParse,
                     onSuccess: (specialEpisode, state) => state.Value = specialEpisode,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: BatchEpisodeParser.ValidateAndParse,
+                    parser: BatchEpisodeParser.ValidateAndParse,
                     onSuccess: (batchEpisode, state) => state.Value = batchEpisode,
                     onFailure: (result, state) => state.Error ??= result.Error
                 )
                 .Try(
-                    parserValidator: UknownEpisodeParser.ValidateAndParse,
+                    parser: UknownEpisodeParser.ValidateAndParse,
                     onSuccess: (unknownEpisode, state) => state.Value = unknownEpisode,
                     onFailure: (result, state) => state.Error ??= result.Error
                 );
